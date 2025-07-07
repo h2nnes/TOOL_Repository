@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/p5@1.11.5/lib/p5.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/addons/p5.sound.min.js"></script>
+		<link rel="stylesheet" href="style.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<main>
+			<div class="ui-panel" id="scrollContainer">
+				<div class="oneColRow" id="page-begin">
+					<p class="nav-text">
+						<a class="hover-underline" href="#tool-begin">TOOL</a>
+						<a class="hover-underline" href="#instructions-begin"
+							>INSTRUCTIONS</a
+						>
+						<a class="hover-underline" href="#idea-begin">IDEA</a>
+					</p>
+				</div>
+
+				<div class="oneColRow" style="height: 30px"></div>
+
+				<div class="oneColRow">
+					<p class="ui-text">
+						<span style="font-style: italic">Shiftable Type</span> is a grid
+						based typesetting tool developed by Hannes Altmann. Designed for use
+						in the early stages of an editorial design project, it helps quickly
+						sketch, shift, and visualize text arrangement ideas.
+					</p>
+				</div>
+
+				<div class="oneColRow" style="height: 50px"></div>
+
+				<form>
+					<!-- Width -->
+					<div class="twoColsRow" id="tool-begin">
+						<div class="groteskSmall">
+							<label for="widthSlider">WIDTH</label>
+						</div>
+						<div>
+							<input
+								class="groteskBig"
+								type="number"
+								id="widthInput"
+								min="200"
+								max="1300"
+								value="600"
+							/>
+							<span class="groteskBig">px</span>
+						</div>
+					</div>
+					<div class="oneColRow">
+						<div>
+							<input
+								type="range"
+								id="widthSlider"
+								min="200"
+								max="1300"
+								value="600"
+							/>
+						</div>
+					</div>
+
+					<div class="oneColRow" style="height: 30px"></div>
+
+					<!-- Height -->
+					<div class="twoColsRow">
+						<div class="groteskSmall">
+							<label for="heightSlider">HEIGHT</label>
+						</div>
+						<div>
+							<input
+								class="groteskBig"
+								type="number"
+								id="heightInput"
+								min="200"
+								value="600"
+							/>
+							<span class="groteskBig">px</span>
+						</div>
+					</div>
+					<div class="oneColRow">
+						<div>
+							<input type="range" id="heightSlider" min="200" value="600" />
+						</div>
+					</div>
+				</form>
+
+				<div class="oneColRow" style="height: 30px"></div>
+
+				<div class="twoColsRow">
+					<div>
+						<label class="groteskSmall" for="numButt-tilesX">TILES X</label>
+					</div>
+					<div class="creaseElements">
+						<button class="groteskBig" id="decreaseX">-</button>
+						<input
+							class="groteskBig"
+							type="number"
+							id="numButt-tilesX"
+							value="8"
+							min="4"
+							max="200"
+						/>
+						<button class="groteskBig" id="increaseX">+</button>
+					</div>
+				</div>
+
+				<hr class="divider" />
+
+				<div class="twoColsRow">
+					<div>
+						<label class="groteskSmall" for="numButt-tilesY">TILES Y</label>
+					</div>
+					<div class="creaseElements">
+						<button class="groteskBig" id="decreaseY">-</button>
+						<input
+							class="groteskBig"
+							type="number"
+							id="numButt-tilesY"
+							value="8"
+							min="4"
+							max="200"
+						/>
+						<button class="groteskBig" id="increaseY">+</button>
+					</div>
+				</div>
+
+				<hr class="divider" />
+
+				<div class="oneColRow" style="height: 50px"></div>
+
+				<div class="oneColRow">
+					<button type="button" id="saveCanvasBttn" class="ui-button">
+						SAVE
+					</button>
+
+					<button type="button" id="cleanCanvasBttn" class="ui-button">
+						CLEAR
+					</button>
+
+					<button type="button" id="resetGridBttn" class="ui-button">
+						RESET
+					</button>
+
+					<input
+						type="radio"
+						id="sharpCorner"
+						name="cornerStyle"
+						value="sharp"
+						checked
+					/>
+					<label for="sharpCorner" class="ui-button cornerLabel"
+						><span></span>&#x25A0; SHARP</label
+					>
+					<input
+						type="radio"
+						id="roundCorner"
+						name="cornerStyle"
+						value="rounded"
+					/>
+					<label for="roundCorner" class="ui-button cornerLabel"
+						><span></span>&#x25CF; ROUND</label
+					>
+
+					<input type="checkbox" id="checkboxShowGrid" checked />
+					<label for="checkboxShowGrid" class="ui-button checkboxLabel"
+						>GRID</label
+					>
+					<button class="ui-button" id="gridColorButton">GRID COLOR</button>
+					<input
+						type="color"
+						id="gridColorPicker"
+						style="opacity: 0; width: 0; height: 0; pointer-events: none"
+						value="#c8c8c8"
+					/>
+				</div>
+
+				<div class="oneColRow" style="height: 50px"></div>
+
+				<div class="twoColsRow groteskSmall" id="instructions-begin">
+					<div><p>INSTRUCTIONS</p></div>
+					<div style="display: flex; justify-content: flex-end">
+						<a href="#" class="scrollToTop">&#x2191;</a>
+					</div>
+				</div>
+
+				<div class="oneColRow">
+					<p class="ui-text">
+						Click on a tile in the grid to fill it. Click it again to erase your
+						selection. <br />
+						<br />
+						To (faster) select multiple tiles in a row, click and hold on a
+						tile, then drag sideways while keeping the mouse button pressed
+						(like you would use a digital paint brush). <br />
+						<br />
+						Do the same on adjacent filled tiles to deselect them one by one.
+						<br /><br />
+						To quickly fill larger sections of the grid, hold
+						<span class="martinaPlantijnSmallCapitals"> SPACE</span>
+						and the left mouse button, then drag to draw a rectangle over the
+						area you want to fill. Release the mouse to confirm your selection.
+						<br /><br />
+						To move single or adjacent tiles horizontally on the grid, click and
+						hold on the tile or anywhere on the row you want to move. While
+						holding the mouse button, press and hold
+						<span class="martinaPlantijnSmallCapitals">SHIFT</span> and move
+						your cursor sideways in the direction you want to shift the row. The
+						selected tile(s) will follow your cursor as you move.
+						<br />
+						<br />
+						<span style="font-style: italic"
+							>(For the best experience, use an external mouse or activate
+							&#x201E;Three Finger Drag&#x201D; on your trackpad)</span
+						>
+					</p>
+				</div>
+
+				<div class="oneColRow" style="height: 50px"></div>
+
+				<div class="twoColsRow groteskSmall" id="idea-begin">
+					<div><p>CONCEPT</p></div>
+					<div style="display: flex; justify-content: flex-end">
+						<a href="#" class="scrollToTop">&#x2191;</a>
+					</div>
+				</div>
+
+				<div class="oneColRow">
+					<p class="ui-text">
+						To truly focus on the act of typesetting itself &#x2014; and to
+						allow full attention on the structures and forms that emerge through
+						text arrangement and composition &#x2014; the text lines are
+						abstracted into simple geometric shapes. <br /><br />
+						This simplification and the system&#x2019;s core modular, rhythmic
+						mechanics draw inspiration from the
+						<span style="font-style: italic">abacus</span> (ancient counting
+						tool consisting of blocks sliding on rods).
+					</p>
+				</div>
+
+				<div class="oneColRow" style="height: 50px"></div>
+
+				<div class="oneColRow ui-img">
+					<img src="Images/abacus.webp" alt="the abacus" style="width: 100px" />
+				</div>
+
+				<div class="oneColRow" style="height: 50px"></div>
+
+				<div class="oneColRow">
+					<p class="ui-text">
+						Another aspect carried over from the abacus metaphor is the
+						restricted movement: Elements can only be drawn and shifted
+						horizontally. <br /><br />
+						The way the tool operates is meant to evoke the feel and logic of
+						manual typesetting from the letterpress era, when workers called
+						compositors arranged movable type (metal sorts) by hand on composing
+						sticks.
+					</p>
+				</div>
+
+				<div class="oneColRow" style="height: 30px"></div>
+
+				<div class="oneColRow ui-img">
+					<img src="Images/tipo.webp" alt="the abacus" style="width: 200px" />
+				</div>
+
+				<div class="oneColRow" style="height: 30px"></div>
+
+				<div class="oneColRow">
+					<p class="ui-text">
+						One key characteristic frome these times I wanted to incorporate is
+						the reversibility of manual typesetting &#x2014; the fact that each
+						letter could be removed, replaced, or rearranged at any time. This
+						flexibility informed how the tool handles editing: Changes are
+						non-destructive, and everything remains movable and adjustable
+						throughout the process.
+					</p>
+				</div>
+
+				<div class="oneColRow" style="height: 30px"></div>
+
+				<div class="twoColsRow groteskSmall">
+					<div><p>IDEA</p></div>
+					<div style="display: flex; justify-content: flex-end">
+						<a href="#" class="scrollToTop">&#x2191;</a>
+					</div>
+				</div>
+
+				<div class="oneColRow">
+					<p class="ui-text">
+						The idea for the tool came from a personal desire to have an
+						environment where I could intuitively explore and play within
+						typesetting &#x2014; to test ideas, try out unconventional
+						approaches and to be able to do this as quickly and effortlessly as
+						possible.
+						<br />
+						<br />
+						Designed for use ahead of an editorial design project, the tool is
+						meant to spark inspiration and make it easy to visualize layout
+						drafts — for example, during a team meeting. <br /><br />
+						I made this tool to help myself in my own design practice — and
+						hopefully it’ll be useful for other students and designers working
+						on similar projects too :)
+					</p>
+				</div>
+
+				<div class="oneColRow" style="height: 30px"></div>
+
+				<div class="oneColRow">
+					<p class="mini-text">
+						Typefaces in use: <br />
+						Overused Grotesk by RandomMaerks <br />
+						Martina Plantijn by Klim Type Foundry
+					</p>
+				</div>
+
+				<div class="oneColRow" style="height: 15px"></div>
+
+				<div class="oneColRow">
+					<p class="mini-text">
+						This application was developed as part of the project module
+						<span style="font-style: italic">TOOLS: Shapes Without Meaning</span
+						>, supervised by Stephanie Specht, during the summer semester 2025
+						at the Department of Typography and Type Design, <br />
+						Bauhaus University Weimar.
+					</p>
+				</div>
+			</div>
+
+			<div id="artboard">
+				<div id="canvasWrapper"></div>
+			</div>
+
+			<!-- Screensaver Overlay -->
+			<div id="screensaver">
+				<video id="screensaverVideo" autoplay muted loop></video>
+			</div>
+		</main>
+		<script src="sketch.js"></script>
+	</body>
+</html>

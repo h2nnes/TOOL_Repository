@@ -1,0 +1,501 @@
+@font-face {
+  font-family: "MartinaPlantijn";
+  src: url(Fonts/MartinaPlantijn/MartinaPlantijn-Light.otf) format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MartinaPlantijn";
+  src: url(Fonts/MartinaPlantijn/MartinaPlantijn-LightItalic.otf) format("opentype");
+  font-weight: 300;
+  font-style: italic;
+} 
+
+@font-face {
+  font-family: "MartinaPlantijn";
+  src: url(Fonts/MartinaPlantijn/MartinaPlantijn-Regular.otf) format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MartinaPlantijn";
+  src: url(Fonts/MartinaPlantijn/MartinaPlantijn-Italic.otf) format("opentype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "MartinaPlantijn";
+  src: url(Fonts/MartinaPlantijn/MartinaPlantijn-Medium.otf) format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MartinaPlantijn";
+  src: url(Fonts/MartinaPlantijn/MartinaPlantijn-MediumItalic.otf) format("opentype");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "MartinaPlantijn";
+  src: url(Fonts/MartinaPlantijn/MartinaPlantijn-Bold.otf) format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MartinaPlantijn";
+  src: url(Fonts/MartinaPlantijn/MartinaPlantijn-BoldItalic.otf) format("opentype");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "MartinaPlantijn";
+  src: url(Fonts/MartinaPlantijn/MartinaPlantijn-Black.otf) format("opentype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MartinaPlantijn";
+  src: url(Fonts/MartinaPlantijn/MartinaPlantijn-BlackItalic.otf) format("opentype");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "NewEdge666";
+  src: url(Fonts/NewEdge666_Test/NewEdge666Test-Light.otf) format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  ascent-override: 100%;
+}
+
+@font-face {
+  font-family: "NewEdge666";
+  src: url(Fonts/NewEdge666_Test/NewEdge666Test-Regular.otf) format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  ascent-override: 100%;
+}
+
+@font-face {
+  font-family: "ArmandGrotesk";
+  src: url(Fonts/ArmandGrotesk_Test/ArmandGroteskTest-Light.otf) format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ArmandGrotesk";
+  src: url(Fonts/ArmandGrotesk_Test/ArmandGroteskTest-Regular.otf) format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "OverusedGrotesk";
+  src: url(Fonts/OverusedGrotesk/OverusedGrotesk-Book.woff2) format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "OverusedGrotesk";
+  src: url(Fonts/OverusedGrotesk/OverusedGrotesk-Roman.woff2) format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "OverusedGrotesk";
+  src: url(Fonts/OverusedGrotesk/OverusedGrotesk-Medium.woff2) format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+
+
+
+
+
+
+/* Globale Stile & Reset */
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+canvas {
+  display: block;
+}
+
+a{
+  color: black;
+  text-decoration: none;
+}
+
+
+
+/* Hauptlayout */
+
+main {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  height: 100vh;
+}
+
+#ui {
+  background: white;
+  height: 100vh;
+}
+
+
+
+/* Typografie */
+
+.nav-text {
+  font-family: 'MartinaPlantijn';
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.2;
+  font-size: 30px;
+  margin: 0;
+  padding-bottom: 4px;
+}
+
+.mini-text {
+  line-height: 1.2;
+  font-size: 10px;
+  margin: 0;
+}
+
+.ui-text {
+  line-height: 1.2;
+  font-size: 16px;
+  margin: 0;
+}
+
+.groteskSmall {
+  font-family: "OverusedGrotesk";
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.groteskBig {
+  font-family: "OverusedGrotesk";
+  font-weight: 400;
+  font-size: 30px;
+}
+
+.martinaPlantijnSmallCapitals {
+  font-feature-settings: "c2sc";
+  background-color: rgb(230, 230, 230);
+  border-radius: 3px;
+  padding: 0 3px 2px 3px;
+  line-height: 1;
+  display: inline-block;
+}
+
+
+
+/* Layout-Komponenten */
+
+#artboard {
+  background: rgb(238, 238, 238);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-panel {
+  display: grid;
+  grid-auto-rows: max-content;
+  gap: 0;
+  padding: 25px;
+  font-family:"MartinaPlantijn";
+  font-weight: 400;
+  overflow-x: hidden;     /* verhindert horizontales Scrollen */
+  overflow-y: auto;       /* erlaubt vertikales Scrollen bei Bedarf */
+  direction: rtl; /* Rechts-nach-links Richtung Scrollbar */
+  scroll-behavior: smooth;
+}
+
+.ui-panel * {
+  direction: ltr; /* Inhalt wieder normal links-nach-rechts */
+}
+
+.oneColRow {
+  background: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.oneColRow > div {
+  width: 100%; /* wichtig, damit das innere div die volle Breite einnimmt */
+}
+
+.twoColsRow {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  background: white;
+  align-items: baseline;
+}
+
+.twoColsRow > div {
+  overflow: hidden;
+  background: white;
+  display: flex;
+}
+
+.creaseElements {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* zentriert das + vertikal im Container */
+}
+
+.ui-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.divider {
+  border: none; /* alle Standardränder entfernen */
+  border-top: 2px solid #000; /* obere Kante als 1px schwarze Linie */
+  margin: 0; /* optional: Abstand oben/unten */
+}
+
+
+
+/* Buttons und Interaktion */
+
+.ui-button {
+  background: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 0 10px 2px 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  margin: 3px;
+  height: 36px;
+  font-family: 'OverusedGrotesk';
+  font-size: 30px;
+  font-weight: 300;
+}
+
+#saveCanvasBttn, 
+#cleanCanvasBttn, 
+#resetGridBttn, 
+#gridColorButton, 
+.cornerLabel,
+.checkboxLabel {
+  transition-duration: 0.3s;
+}
+
+#saveCanvasBttn:hover, 
+#cleanCanvasBttn:hover, 
+#resetGridBttn:hover, 
+#gridColorButton:hover,
+.cornerLabel:hover,
+.checkboxLabel:hover {
+  background-color: lightgray;
+}
+
+.hover-underline:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#increaseX, #decreaseX, #increaseY, #decreaseY {
+  background: none;
+  border: none;
+  border: 1px solid transparent; /* << Reserviert Platz für border on hover */
+  padding: 0;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+
+
+ /* Input-Felder & Slider */
+
+input[type="range"],
+input[type="number"] {
+  width: 100%;
+}
+
+#widthInput, #heightInput, #numButt-tilesX, #numButt-tilesY {
+  outline: none;
+  border: none;
+  text-align: center;
+}
+
+#widthInput, #heightInput {
+  padding-left: 0;        /* Kein Padding links */
+  text-align: left;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+input[type=range] {
+  border: none;
+  box-shadow: none;
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  background: black;
+  height: 2px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  border: none;
+  background: black;
+  border-radius: 0;
+  box-shadow: none;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  border: none;
+  background: black;
+  border-radius: 0;
+  box-shadow: none;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+}
+
+
+
+/* Checkboxen, Radio Buttons & Labels */
+
+input[type="radio"] {
+  margin-right: 6px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.cornerLabel {
+  border: 1px solid #b4b4b4;
+  color: #b4b4b4;
+}
+
+input[type="radio"]:checked + label.cornerLabel {
+  color: black;
+  border-color: black;
+  background-color: white;
+}
+
+input[type="radio"]:checked + label.cornerLabel .blackSquare, 
+input[type="radio"]:checked + label.cornerLabel .blackCircle {
+  background-color: black;
+}
+
+input[name="cornerStyle"] {
+  display: none;
+}
+
+input[type=checkbox]+label.checkboxLabel {
+  border: 1px solid #b4b4b4;
+  color: #b4b4b4; 
+}
+
+input[type=checkbox]:checked + label.checkboxLabel {
+  color: black;
+  border-color: black;
+}
+
+#checkboxShowGrid {
+  display: none;
+}
+
+
+
+/* Dekorative Elemente */
+
+.blackSquare {
+  height: 0.7em;
+  width: 0.7em;
+  background-color: #b4b4b4;
+  margin-right: 5px;
+}
+
+.blackCircle {
+  height: 0.7em;
+  width: 0.7em;
+  background-color: #b4b4b4;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+
+
+/* Tastatur-Elemente */
+
+kbd {
+  background-color: #eee;
+  border-radius: 3px;
+  border: 1px solid #b4b4b4;
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.2),
+    0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+  color: #333;
+  display: inline-block;
+  font-size: 0.85em;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 4px;
+  white-space: nowrap;
+}
+
+/* Screensaver */
+#screensaver {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 9999;
+  display: none;
+}
+
+#screensaver video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
