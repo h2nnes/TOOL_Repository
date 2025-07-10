@@ -714,7 +714,7 @@ const screensaver = document.getElementById("screensaver");
 const video = document.getElementById("screensaverVideo");
 
 // Setze das Video (Pfad ggf. anpassen)
-video.src = "Videos/Screensaver_v2.mp4";
+video.src = "Videos/Screensaver_TOOL.mp4";
 
 // Screensaver anzeigen
 function showScreensaver() {
