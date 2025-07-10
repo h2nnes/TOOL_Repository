@@ -709,7 +709,7 @@ document.addEventListener("mouseleave", stopAutoRepeat);
 // === Screensaver ===
 let idleTimeout = null;
 let isScreensaverEnabled = true;
-const screensaverDelay = 60000; // 1 Minute
+const screensaverDelay = 6000; // 1 Minute
 const screensaver = document.getElementById("screensaver");
 const video = document.getElementById("screensaverVideo");
 
