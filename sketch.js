@@ -59,6 +59,10 @@ let isMarqueeSelecting = false;
 
 function setup() {
 
+  // --- PERFORMANCE: stoppt das automatische 60FPS-Rendering
+  // draw() wird jetzt nur noch ausgeführt, wenn wir redraw() manuell aufrufen.
+  noLoop();
+
   const { maxWidth, maxHeight } = getAvailableCanvasSize();
 
   // Max-Werte setzen
@@ -149,6 +153,19 @@ function setup() {
     gridLineColor = e.target.value; // Neue Farbe setzen
     redraw(); // Canvas neu zeichnen (nur nötig bei noLoop)
   });
+
+  // Damit sich das Ein-/Ausblenden des Grid sofort aktualisiert:
+  checkboxShowGrid.addEventListener('change', () => {
+    redraw();
+  });
+
+  // Damit Änderung des Corner-Styles sofort sichtbar wird:
+  document.querySelectorAll('input[name="cornerStyle"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    redraw();
+    });
+  });
+
 }
 
 function draw() {
