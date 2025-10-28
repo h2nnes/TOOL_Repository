@@ -235,8 +235,10 @@ function drawMarquee() {
 
 
 function mousePressed() {
-  // --- NEU: Rechteckauswahl starten bei Space-Taste ---
-  if (keyIsDown(32)) { // 32 = Keycode für Leertaste      
+  if (mouseButton !== LEFT) return; // nur links klicken erlaubt
+
+  // Rechteckauswahl starten bei Option/ALT ---
+  if (keyIsDown(ALT)) {      
     isMarqueeSelecting = true;
     marqueeStartX = mouseX;
     marqueeStartY = mouseY;
