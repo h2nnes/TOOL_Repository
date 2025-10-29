@@ -25,6 +25,9 @@ const toTopButtons = document.querySelectorAll(".scrollToTop");
 const gridColorButton = document.getElementById("gridColorButton");
 const gridColorPicker = document.getElementById("gridColorPicker");
 
+const artboard = document.getElementById("artboard");
+const wrapper = document.getElementById("canvasWrapper");
+
 // Initiale Synchronisierung sicherstellen
 widthSlider.value = widthInput.value;
 heightSlider.value = heightInput.value;
@@ -55,6 +58,16 @@ let marqueeEndX = null;
 let marqueeEndY = null;
 let isMarqueeSelecting = false;
 
+// === PANNING (Canvas-Verschiebung) ===
+let isPanning = false;
+let panOffsetX = 0;
+let panOffsetY = 0;
+let lastMouseX = 0;
+let lastMouseY = 0;
+
+
+
+
 
 
 function setup() {
@@ -76,6 +89,11 @@ function setup() {
 
   var canvas = createCanvas(parseInt(widthSlider.value), parseInt(heightSlider.value)); // Zeichenfläche erstellen
   canvas.parent("canvasWrapper");
+
+  // --- Canvas mittig auf dem Artboard platzieren ---
+  wrapper.style.position = "absolute";
+  centerCanvasOnArtboard();
+
 
   translate(1, 1); // alles um 1px nach innen verschieben
 
@@ -172,7 +190,7 @@ function draw() {
   background(255); // hellgrauer Hintergrund
 
   push();
-  translate(1, 1); // Verschiebung für 1px Rand
+  translate(1,1); 
 
   if (checkboxShowGrid.checked) { // zeichnet Grid inkl. schwarz-weißer Zellen
     drawGrid(); // Nur zeichnen, wenn Checkbox aktiviert ist
@@ -237,6 +255,15 @@ function drawMarquee() {
 function mousePressed() {
   if (mouseButton !== LEFT) return; // nur links klicken erlaubt
 
+  if (keyIsDown(32)) { // Space gedrückt?
+    isPanning = true;
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
+    document.body.style.cursor = "grabbing";
+    return; // verhindert gleichzeitiges Zeichnen
+  }
+
+
   // Rechteckauswahl starten bei Option/ALT ---
   if (keyIsDown(ALT)) {      
     isMarqueeSelecting = true;
@@ -297,6 +324,11 @@ function mousePressed() {
 }
 
 function mouseReleased() {
+  if (isPanning) {
+    isPanning = false;
+    document.body.style.cursor = "default";
+  }
+
   // --- NEU: Rechteckauswahl abschließen ---
   if (isMarqueeSelecting) {
     const x1 = min(marqueeStartX, marqueeEndX);
@@ -335,6 +367,14 @@ function mouseReleased() {
 }
 
 function mouseDragged() {
+  if (isPanning) {
+    panOffsetX += movedX;
+    panOffsetY += movedY;
+    updateCanvasPosition();
+    return; // verhindert gleichzeitiges Zeichnen
+  }
+
+
   // --- NEU: Rechteckauswahl aktiv? Dann Endpunkt aktualisieren ---
   if (isMarqueeSelecting) {
     marqueeEndX = mouseX;
@@ -393,6 +433,15 @@ function updateGridFromBlocks() {
   }
 }
 
+
+function updateCanvasPosition() {
+  const wrapper = document.getElementById("canvasWrapper");
+  wrapper.style.left = `${panOffsetX}px`;
+  wrapper.style.top = `${panOffsetY}px`;
+}
+
+
+
 function clearGrid() {
   // Alle Zellen auf "aus" setzen
   initializeEmptyGrid();
@@ -403,8 +452,17 @@ function clearGrid() {
   redraw(); // falls du noLoop verwendest
 }
 
+function centerCanvasOnArtboard() {
+  panOffsetX = (artboard.clientWidth - width) / 2;
+  panOffsetY = (artboard.clientHeight - height) / 2;
+  wrapper.style.left = `${panOffsetX}px`;
+  wrapper.style.top = `${panOffsetY}px`;
+}
 
 function resetGridToDefaults() {
+  // === Canvas wieder mittig auf dem Artboard platzieren ===
+  centerCanvasOnArtboard();
+
 	// Reset Grid Line Color
 	gridLineColor = DEFAULT_GRID_LINE_COLOR;
 
@@ -589,6 +647,17 @@ function clampTileInput(event) {
     input.value = val;
     adjustGridFromSliders();
   }
+}
+
+function clampPan() {
+  const artboard = document.getElementById("artboard");
+  const maxOffsetX = 0;
+  const maxOffsetY = 0;
+  const minOffsetX = artboard.offsetWidth - width;
+  const minOffsetY = artboard.offsetHeight - height;
+
+  panOffsetX = clamp(panOffsetX, minOffsetX, maxOffsetX);
+  panOffsetY = clamp(panOffsetY, minOffsetY, maxOffsetY);
 }
 
 
