@@ -224,6 +224,12 @@ main {
   overflow: hidden;
 }
 
+/* --- Canvas soll normal klickbar bleiben --- */
+#canvasWrapper canvas {
+  pointer-events: auto;
+  z-index: 1;
+}
+
 .ui-panel {
   display: grid;
   grid-auto-rows: max-content;
@@ -235,6 +241,8 @@ main {
   overflow-y: auto;       /* erlaubt vertikales Scrollen bei Bedarf */
   direction: rtl; /* Rechts-nach-links Richtung Scrollbar */
   scroll-behavior: smooth;
+  z-index: 10;         /* höher als das Canvas */
+  pointer-events: auto; /* empfängt Klicks */
 }
 
 .ui-panel * {
