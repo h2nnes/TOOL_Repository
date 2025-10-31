@@ -69,9 +69,8 @@
   let zoom = 1.0;
   let zoomMin = 0.5;
   let zoomMax = 5.0;
-  const baseCanvasSize = 600; // deine Standardgröße
-  let baseWidth = 600;  // aktuelle Breite lt. Slider
-  let baseHeight = 600; // aktuelle Höhe lt. Slider
+  let baseCanvasWidth = 600;  // aktuelle Breite lt. Slider
+  let baseCanvasHeight = 600; // aktuelle Höhe lt. Slider
 
 
 
@@ -211,15 +210,29 @@
   }
 
   function drawGrid() {
-    stroke(gridLineColor); // Farbe der Gitterlinien
-    noFill();    // keine Füllung – nur Rahmen
+    stroke(gridLineColor);
+    noFill();
 
-    for (let x = 0; x < tilesX; x++) {
-      for (let y = 0; y < tilesY; y++) {
-        rect(x * tileW, y * tileH, tileW, tileH);
-      }
+    beginShape(LINES);
+
+    // vertikale Linien
+    for (let x = 0; x <= tilesX; x++) {
+      const px = x * tileW;
+      vertex(px, 0);
+      vertex(px, height);
     }
+
+    // horizontale Linien
+    for (let y = 0; y <= tilesY; y++) {
+      const py = y * tileH;
+      vertex(0, py);
+      vertex(width, py);
+    }
+
+    endShape();
   }
+
+
 
 
   function drawBlocks() {
@@ -452,8 +465,6 @@
   }
 
 
-
-
   function clearGrid() {
     // Alle Zellen auf "aus" setzen
     initializeEmptyGrid();
@@ -486,8 +497,8 @@
 
     // --- HIER NEU: Zoom- und Basegrößen-Reset ---
     zoom = 1.0;
-    baseWidth = defaultWidth;
-    baseHeight = defaultHeight;
+    baseCanvasWidth = defaultWidth;
+    baseCanvasHeight = defaultHeight;
 
     // Werte zurücksetzen
     document.getElementById("widthInput").value = defaultWidth;
@@ -536,15 +547,13 @@
     let newHeight = parseInt(heightSlider.value);
     
     // wenn User manuell resized → neue Basegröße setzen
-    baseWidth = newWidth;
-    baseHeight = newHeight;
+    baseCanvasWidth = newWidth;
+    baseCanvasHeight = newHeight;
 
     resizeCanvas(newWidth, newHeight);
     detectTileSize();
     redraw();
   }
-
-
 
   function detectBlocks() {
     blocks = []; // Vorherige Blöcke löschen
@@ -623,22 +632,19 @@
     zoom = constrain(zoom, zoomMin, zoomMax);
 
     // Canvas proportional skalieren
-    const newWidth = baseWidth * zoom;
-    const newHeight = baseHeight * zoom;
+    const newWidth = baseCanvasWidth * zoom;
+    const newHeight = baseCanvasHeight * zoom;
 
     resizeCanvas(newWidth, newHeight);
     detectTileSize();
     redraw();
   }
 
-
-
   function detectTileSize() {
     // -2 ist für innenabstand zum Canvas von je 1 px von jeder Seite
     tileW = (width - 2) / tilesX;
     tileH = (height - 2) / tilesY;
   }
-
 
   // UI-Panel-Breite berücksichtigen
   function getAvailableCanvasSize() {
@@ -698,18 +704,6 @@
       adjustGridFromSliders();
     }
   }
-
-  function clampPan() {
-    const artboard = document.getElementById("artboard");
-    const maxOffsetX = 0;
-    const maxOffsetY = 0;
-    const minOffsetX = artboard.offsetWidth - width;
-    const minOffsetY = artboard.offsetHeight - height;
-
-    panOffsetX = clamp(panOffsetX, minOffsetX, maxOffsetX);
-    panOffsetY = clamp(panOffsetY, minOffsetY, maxOffsetY);
-  }
-
 
   function clampWidthInputUnified(event) {
     const input = event.target;
@@ -846,7 +840,7 @@
 
   // === Screensaver ===
   let idleTimeout = null;
-  let isScreensaverEnabled = true;
+  let isScreensaverEnabled = false;
   const screensaverDelay = 60000; // 1 Minute
   const screensaver = document.getElementById("screensaver");
   const video = document.getElementById("screensaverVideo");
