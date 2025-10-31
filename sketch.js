@@ -65,6 +65,13 @@
   let lastMouseX = 0;
   let lastMouseY = 0;
 
+  // ZOOM
+  let zoom = 1.0;
+  let zoomMin = 0.5;
+  let zoomMax = 5.0;
+  const baseCanvasSize = 600; // deine Standardgröße
+  let baseWidth = 600;  // aktuelle Breite lt. Slider
+  let baseHeight = 600; // aktuelle Höhe lt. Slider
 
 
 
@@ -89,6 +96,8 @@
 
     var canvas = createCanvas(parseInt(widthSlider.value), parseInt(heightSlider.value)); // Zeichenfläche erstellen
     canvas.parent("canvasWrapper");
+    canvas.elt.addEventListener("wheel", handleZoom, { passive: false });
+
 
     // --- Canvas mittig auf dem Artboard platzieren ---
     wrapper.style.position = "absolute";
@@ -190,7 +199,7 @@
     background(255); // hellgrauer Hintergrund
 
     push();
-    translate(1,1); 
+    translate(1,1);
 
     if (checkboxShowGrid.checked) { // zeichnet Grid inkl. schwarz-weißer Zellen
       drawGrid(); // Nur zeichnen, wenn Checkbox aktiviert ist
@@ -219,7 +228,7 @@
     // --- Ecke-Stil ermitteln ---
     const selected = document.querySelector('input[name="cornerStyle"]:checked');
     const cornerStyle = selected ? selected.value : "sharp";
-    const cornerRadius = (cornerStyle === "rounded") ? 50 : 0;
+    const cornerRadius = (cornerStyle === "rounded") ? 50 * zoom : 0;
 
     fill(0);
 
@@ -475,6 +484,11 @@
     const defaultTilesX = 8;
     const defaultTilesY = 8;
 
+    // --- HIER NEU: Zoom- und Basegrößen-Reset ---
+    zoom = 1.0;
+    baseWidth = defaultWidth;
+    baseHeight = defaultHeight;
+
     // Werte zurücksetzen
     document.getElementById("widthInput").value = defaultWidth;
     document.getElementById("widthSlider").value = defaultWidth;
@@ -518,14 +532,18 @@
 
 
   function resizeCanvasFromSliders() {
-    let newWidth = parseInt(document.getElementById("widthSlider").value);
-    let newHeight = parseInt(document.getElementById("heightSlider").value);
+    let newWidth = parseInt(widthSlider.value);
+    let newHeight = parseInt(heightSlider.value);
+    
+    // wenn User manuell resized → neue Basegröße setzen
+    baseWidth = newWidth;
+    baseHeight = newHeight;
+
     resizeCanvas(newWidth, newHeight);
-
     detectTileSize();
-
-    redraw(); // nur nötig bei noLoop()
+    redraw();
   }
+
 
 
   function detectBlocks() {
@@ -587,6 +605,32 @@
       }
     }
   }
+
+
+  function handleZoom(event) {
+    event.preventDefault(); // verhindert Browser-Scrollen
+
+    // Basisgeschwindigkeit
+    let zoomSpeed = 0.0015;
+
+    // Touchpad-Erkennung: sehr kleine deltaY-Werte ⇒ Touchpad
+    if (Math.abs(event.deltaY) < 50) {
+      zoomSpeed = 0.01; // schneller für Touchpad
+    }
+
+    // 🔍 Zoom anpassen
+    zoom -= event.deltaY * zoomSpeed;
+    zoom = constrain(zoom, zoomMin, zoomMax);
+
+    // Canvas proportional skalieren
+    const newWidth = baseWidth * zoom;
+    const newHeight = baseHeight * zoom;
+
+    resizeCanvas(newWidth, newHeight);
+    detectTileSize();
+    redraw();
+  }
+
 
 
   function detectTileSize() {
