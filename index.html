@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<title>Shiftable Type Tool</title>
 		<script src="https://cdn.jsdelivr.net/npm/p5@1.11.5/lib/p5.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/addons/p5.sound.min.js"></script>
 		<link rel="stylesheet" href="style.css" />
@@ -11,6 +12,18 @@
 		<meta charset="utf-8" />
 	</head>
 	<body>
+		<!-- Preloader Overlay -->
+		<div id="preloader">
+			<div class="loader">
+				<span>Loading</span>
+				<div class="dot"></div>
+			</div>
+		</div>
+
+		<div id="videoPopup" class="video-popup" aria-hidden="true">
+			<video autoplay muted loop playsinline></video>
+		</div>
+
 		<main>
 			<div class="ui-panel" id="scrollContainer">
 				<div class="oneColRow" id="page-begin">
@@ -19,13 +32,13 @@
 						<a class="hover-underline" href="#instructions-begin"
 							>INSTRUCTIONS</a
 						>
-						<a class="hover-underline" href="#idea-begin">IDEA</a>
+						<a class="hover-underline" href="#idea-begin">ABOUT</a>
 					</p>
 				</div>
 
 				<div class="oneColRow" style="height: 30px"></div>
 
-				<div class="oneColRow">
+				<div class="oneColRow" id="tool-begin">
 					<p class="ui-text">
 						<span style="font-style: italic">Shiftable Type</span> is a grid
 						based typesetting tool developed by Hannes Altmann. Designed for use
@@ -38,7 +51,7 @@
 
 				<form>
 					<!-- Width -->
-					<div class="twoColsRow" id="tool-begin">
+					<div class="twoColsRow">
 						<div class="groteskSmall">
 							<label for="widthSlider">WIDTH</label>
 						</div>
@@ -192,26 +205,53 @@
 
 				<div class="oneColRow">
 					<p class="ui-text">
-						Click on a tile in the grid to fill it. Click it again to erase your
-						selection. <br />
+						<span class="instruction" data-video="videos/click.webm">
+							Click on a tile in the grid to fill it. Click it again to erase
+							your selection.</span
+						>
 						<br />
-						To (faster) select multiple tiles in a row, click and hold on a
-						tile, then drag sideways while keeping the mouse button pressed
-						(like you would use a digital paint brush). <br />
 						<br />
-						Do the same on adjacent filled tiles to deselect them one by one.
+						<span class="instruction" data-video="videos/selectDrag.webm ">
+							To (faster) select multiple tiles in a row, click and hold on a
+							tile, then drag sideways while keeping the mouse button pressed
+							(like you would use a digital paint brush).</span
+						>
+						<br />
+						<br />
+						<span class="instruction" data-video="videos/deselectDrag.webm">
+							Do the same on adjacent filled tiles to deselect them one by one.
+						</span>
 						<br /><br />
-						To quickly fill larger sections of the grid, hold
-						<span class="martinaPlantijnSmallCapitals"> OPTION / ALT</span>
-						and the left mouse button, then drag to draw a rectangle over the
-						area you want to fill. Release the mouse to confirm your selection.
+						<span class="instruction" data-video="videos/marquee.webm">
+							To quickly fill larger sections of the grid, hold
+							<span class="martinaPlantijnSmallCapitals"> OPTION / ALT</span>
+							and the left mouse button, then drag to draw a rectangle over the
+							area you want to fill. Release the mouse to confirm your
+							selection.
+						</span>
 						<br /><br />
-						To move single or adjacent tiles horizontally on the grid, click and
-						hold on the tile or anywhere on the row you want to move. While
-						holding the mouse button, press and hold
-						<span class="martinaPlantijnSmallCapitals">SHIFT</span> and move
-						your cursor sideways in the direction you want to shift the row. The
-						selected tile(s) will follow your cursor as you move.
+						<span class="instruction" data-video="videos/shift.webm">
+							To move single or adjacent tiles horizontally on the grid, click
+							and hold on the tile or anywhere on the row you want to move.
+							While holding the mouse button, press and hold
+							<span class="martinaPlantijnSmallCapitals">SHIFT</span> and move
+							your cursor sideways in the direction you want to shift the row.
+							The selected tile(s) will follow your cursor as you move.</span
+						>
+						<br /><br />
+						<span class="instruction" data-video="videos/pan.webm">
+							Hold
+							<span class="martinaPlantijnSmallCapitals">SPACE</span> on your
+							keyboard to pan, just as in Figma or the Adobe Suite. </span
+						><br /><br />
+						<span class="instruction" data-video="videos/zoom.webm">
+							You can zoom in (useful for fine grids) by scrolling the
+							<span class="martinaPlantijnSmallCapitals">MOUSE WHEEL</span>
+							or with
+							<span class="martinaPlantijnSmallCapitals"
+								>TRACKPAD GESTURES</span
+							>
+						</span>
 						<br />
 						<br />
 						<span style="font-style: italic"
@@ -342,5 +382,18 @@
 			</div>
 		</main>
 		<script src="sketch.js"></script>
+
+		<!-- Preloader Script (kommt NACH sketch.js!) -->
+		<script>
+			window.addEventListener("load", () => {
+				const preloader = document.getElementById("preloader");
+
+				// Sanft ausblenden, wenn alles geladen ist
+				preloader.classList.add("hidden");
+
+				// Nach der Transition komplett entfernen
+				setTimeout(() => preloader.remove(), 700);
+			});
+		</script>
 	</body>
 </html>

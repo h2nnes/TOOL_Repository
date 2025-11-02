@@ -347,6 +347,38 @@ button:hover {
 }
 
 
+.video-popup {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+  background: #000;
+  z-index: 9999;
+  display: none;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  border: 1px solid black;
+}
+
+.video-popup.show {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.video-popup video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.instruction:hover {
+  cursor: help;
+}
+
+
+
 
  /* Input-Felder & Slider */
 
@@ -508,4 +540,46 @@ kbd {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+/* --- Preloader Overlay --- */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: #fff; /* oder dein Hintergrund */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 99999;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+#preloader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- Simple Loading Animation --- */
+.loader {
+  text-align: center;
+  font-family: sans-serif;
+  color: #111;
+}
+
+.loader .dot {
+  width: 10px;
+  height: 10px;
+  margin: 10px auto 0;
+  border-radius: 50%;
+  background: #111;
+  animation: bounce 0.6s infinite alternate;
+}
+
+@keyframes bounce {
+  to {
+    transform: translateY(-8px);
+    opacity: 0.4;
+  }
 }

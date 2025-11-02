@@ -833,6 +833,98 @@
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  const popup = document.getElementById("videoPopup");
+  const popupVideo = popup.querySelector("video");
+  let activeInstruction = null; // aktuell geöffneter instruction-element
+
+  // Helper: öffne Popup an Position x,y mit Video-Quelle
+  function openPopup(x, y, src) {
+    popup.style.left = `${x}px`;
+    popup.style.top  = `${y}px`;
+    popupVideo.src = src;
+    popupVideo.currentTime = 0;
+    popupVideo.play().catch(() => {/* Autoplay blockiert? OK */});
+    popup.classList.add("show");
+    popup.setAttribute("aria-hidden", "false");
+  }
+
+  // Helper: schliesse Popup
+  function closePopup() {
+    popup.classList.remove("show");
+    // nach transition display:none setzen
+    setTimeout(() => {
+      popup.style.display = "none";
+      popupVideo.pause();
+      popupVideo.src = "";
+      popup.setAttribute("aria-hidden", "true");
+      activeInstruction = null;
+    }, 180);
+  }
+
+  // alle instruction-Elemente
+  document.querySelectorAll(".instruction").forEach((el) => {
+    // Klick öffnet Popup (oder schliesst, wenn das gleiche Element schon offen ist)
+    el.addEventListener("click", (e) => {
+      e.stopPropagation(); // nicht an document weitergeben
+
+      const videoSrc = el.dataset.video;
+      if (!videoSrc) return;
+
+      // Wenn das gleiche Element schon geöffnet ist -> toggle close
+      if (activeInstruction === el) {
+        closePopup();
+        return;
+      }
+
+      // andernfalls öffnen
+      activeInstruction = el;
+
+      // Position rechts vom Cursor; Y leicht zentriert
+      const x = e.pageX + 15;
+      const y = e.pageY - 100;
+
+      // ensure visible immediately (display block) bevor class show
+      popup.style.display = "block";
+      // small timeout damit display wirkt bevor transition startet
+      requestAnimationFrame(() => openPopup(x, y, videoSrc));
+    });
+
+    // Wenn Maus das Instruction-Element verlässt -> Popup schliessen
+    el.addEventListener("mouseleave", (e) => {
+      // Wenn das Popup für dieses Element offen ist -> schliessen
+      if (activeInstruction === el) {
+        closePopup();
+      }
+    });
+
+    // Optional: während Maus über dem Element bewegt, das Popup mitbewegen
+    el.addEventListener("mousemove", (e) => {
+      if (activeInstruction === el) {
+        const x = e.pageX + 15;
+        const y = e.pageY - 100;
+        popup.style.left = `${x}px`;
+        popup.style.top  = `${y}px`;
+      }
+    });
+  });
+
+  // Klick irgendwo anders schliesst Popup (optional, sinnvoll als Fallback)
+  document.addEventListener("click", (e) => {
+    if (activeInstruction) {
+      closePopup();
+    }
+  });
+
+  // Touch-Fallback: tippen auf ein Element öffnet, tippen ausserhalb schliesst
+  document.addEventListener("touchstart", (e) => {
+    // falls touch auf .instruction handled ist, leave it; sonst close
+    if (!e.target.closest(".instruction") && activeInstruction) {
+      closePopup();
+    }
+  }, {passive: true});
+});
+
 
 
 
