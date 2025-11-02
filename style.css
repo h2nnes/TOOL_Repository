@@ -296,7 +296,7 @@ main {
 /* Buttons und Interaktion */
 
 button {
-  color: #000;
+  color: #000; /* specifically important for button text on iOS Safari (otherwise blue) */
 }
 
 .ui-button {
@@ -345,6 +345,7 @@ button {
   border: none;
   border: 1px solid transparent; /* << Reserviert Platz für border on hover */
   padding: 0;
+  color: #000;
 }
 
 button:hover {
