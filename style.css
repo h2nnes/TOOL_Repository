@@ -310,6 +310,7 @@ main {
   font-family: 'OverusedGrotesk';
   font-size: 30px;
   font-weight: 300;
+  color: black;
 }
 
 #saveCanvasBttn, 
