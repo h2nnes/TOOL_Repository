@@ -149,13 +149,6 @@ a{
   text-decoration: none;
 }
 
-hr {
-  width: 100%;
-  border: none;
-  border-top: 1px dotted black;  
-}
-
-
 /* Hauptlayout */
 
 main {
