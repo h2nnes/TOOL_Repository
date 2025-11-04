@@ -241,7 +241,10 @@
     // --- Ecke-Stil ermitteln ---
     const selected = document.querySelector('input[name="cornerStyle"]:checked');
     const cornerStyle = selected ? selected.value : "sharp";
-    const cornerRadius = (cornerStyle === "rounded") ? 50 * zoom : 0;
+
+    const ROUNDED_RATIO = 0.5;
+
+    const cornerRadius = (cornerStyle === "rounded") ? Math.min(tileW, tileH) * ROUNDED_RATIO: 0;
 
     fill(0);
 
